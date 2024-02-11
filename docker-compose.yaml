@@ -1,0 +1,19 @@
+services:
+  mysql-streaming:
+    image: mysql:8.3.0
+    environment:
+      MYSQL_DATABASE: streaming
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_TCP_PORT: 3307
+    ports:
+      - 3307:3307
+  mqtt:
+    image: eclipse-mosquitto
+    volumes:
+      - ./mqqt_consumer/config:/mosquitto/config
+    ports:
+      - 1883:1883
+      - 9001:9001
+
