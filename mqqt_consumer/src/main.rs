@@ -4,7 +4,7 @@ use std::{env, process, thread, time::Duration};
 
 extern crate paho_mqtt as mqtt;
 
-const DEFAULT_BROKER:&str = "tcp://192.168.100.45:1883";
+const DEFAULT_BROKER:&str = "tcp://127.0.0.1:1883";
 const DEFAULT_CLIENT:&str = "zigbee2mqtt";
 const DEFAULT_TOPICS:&[&str] = &["zigbee2mqtt/thermometer_bedroom", "zigbee2mqtt/thermometer_living", "zigbee2mqtt/thermometer_garden"];
 
