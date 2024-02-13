@@ -8,4 +8,5 @@ edition = "2021"
 [dependencies]
 paho-mqtt = { git = "https://github.com/eclipse/paho.mqtt.rust.git", branch = "master" }
 rand = "0.8.5"
+regex = "1.10.3"
 tokio = "1.36.0"

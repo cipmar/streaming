@@ -1,6 +1,8 @@
-// file:///Users/mariusropotica/.rustup/toolchains/stable-aarch64-apple-darwin/share/doc/rust/html/book/ch04-03-slices.html
+// file:///Users/mariusropotica/.rustup/toolchains/stable-aarch64-apple-darwin/share/doc/rust/html/book/ch05-01-defining-structs.html
 
 use std::{env, process, thread, time::Duration};
+use mqtt::Message;
+use regex::Regex;
 
 extern crate paho_mqtt as mqtt;
 
@@ -49,7 +51,7 @@ fn main() {
 
     for msg in receiver.iter() {
         if let Some(msg) = msg {
-            println!("Received message: {}", msg);
+            process_message(&msg);
         } else if !cli.is_connected() {
             if try_reconnect(&cli) {
                 println!("Resubscribe to topics...");
@@ -91,6 +93,19 @@ fn subscribe_topics(cli: &mqtt::Client) {
     if let Err(e) = cli.subscribe_many(DEFAULT_TOPICS, &[0, 1]) {
         println!("Error subscribe to topics: {:?}", e);
         process::exit(1);
+    }   
+}
+
+fn process_message(msg: &Message) {
+
+    let re= match Regex::new(r#"\{[^\}]*\}"#) {
+        Ok(re) => re,
+        Err(e) => panic!("Error building json regex: {:?}", e)
+    };
+
+    if let Some(json) = re.find(&msg.payload_str()) {
+       println!("Extracted json from the message: {}", json.as_str());
+    } else {
+        print!("The message doesn't contain a json payload!")
     }
-    
 }
