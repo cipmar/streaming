@@ -2,7 +2,6 @@
 
 use std::{env, process, thread, time::Duration};
 use mqtt::Message;
-use regex::Regex;
 
 extern crate paho_mqtt as mqtt;
 
@@ -98,14 +97,10 @@ fn subscribe_topics(cli: &mqtt::Client) {
 
 fn process_message(msg: &Message) {
 
-    let re= match Regex::new(r#"\{[^\}]*\}"#) {
-        Ok(re) => re,
-        Err(e) => panic!("Error building json regex: {:?}", e)
-    };
+    let topic = msg.topic();
+    let payload = msg.payload_str();
 
-    if let Some(json) = re.find(&msg.payload_str()) {
-       println!("Extracted json from the message: {}", json.as_str());
-    } else {
-        print!("The message doesn't contain a json payload!")
-    }
+    println!("Received message, topic: {}, payload: {}", topic, payload);
+
+    // send data via socket in profobuf format ...
 }

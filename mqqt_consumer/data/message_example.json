@@ -1,0 +1,22 @@
+{
+    "messages": [
+        {
+            "battery": 100,
+            "humidity": 47.44,
+            "linkquality": 21,
+            "power_outage_count": 63,
+            "pressure": 1006.2,
+            "temperature": 21.38,
+            "voltage": 3005
+        },
+        {
+            "battery": 100,
+            "humidity": 43.14,
+            "linkquality": 171,
+            "power_outage_count": 366,
+            "pressure": 1006.3,
+            "temperature": 20.59,
+            "voltage": 3015
+        }
+    ]
+}
