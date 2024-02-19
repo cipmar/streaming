@@ -1,6 +1,6 @@
-// file:///Users/mariusropotica/.rustup/toolchains/stable-aarch64-apple-darwin/share/doc/rust/html/book/ch05-01-defining-structs.html
+// file:///Users/mariusropotica/.rustup/toolchains/stable-aarch64-apple-darwin/share/doc/rust/html/book/ch05-02-example-structs.html
 
-use std::{env, process, thread, time::Duration};
+use std::{env, io::Write, net::TcpStream, process, thread, time::Duration};
 use mqtt::Message;
 
 extern crate paho_mqtt as mqtt;
@@ -102,5 +102,19 @@ fn process_message(msg: &Message) {
 
     println!("Received message, topic: {}, payload: {}", topic, payload);
 
-    // send data via socket in profobuf format ...
+    write_message_to_socket(msg);
+}
+
+fn write_message_to_socket(msg: &Message) {
+
+    let mut tcp_stream = TcpStream::connect("127.0.0.1:34000").unwrap_or_else(|err| {
+        println!("Error connecting to socket: {}", err);
+        process::exit(1);
+    });
+
+    // TODO: encode the message in protobuf format
+    if let Err(e) = tcp_stream.write(msg.payload_str().as_bytes()) {
+        println!("Error writing to the socket: {}", e);
+        process::exit(1);
+    }
 }
