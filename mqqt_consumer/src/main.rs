@@ -1,4 +1,4 @@
-// file:///Users/mariusropotica/.rustup/toolchains/stable-aarch64-apple-darwin/share/doc/rust/html/book/ch05-02-example-structs.html
+// file:///Users/mariusropotica/.rustup/toolchains/stable-aarch64-apple-darwin/share/doc/rust/html/book/ch05-03-method-syntax.html
 
 use std::{env, io::Write, net::TcpStream, process, thread, time::Duration};
 use mqtt::Message;
