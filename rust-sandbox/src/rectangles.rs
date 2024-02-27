@@ -24,6 +24,23 @@ pub(crate) fn main() {
         "The area of the rectangle is {} in square pixels (using struct).",
         area_with_struct(&rect)
     );
+
+    let rect1 = Rectangle {
+        width: width1,
+        height: height1
+    };
+
+    println!("The area of the rectangle is {} in square pixels (using methods).", rect1.area());
+
+    let rect2 = Rectangle {
+        width: 100,
+        height: 55
+    };
+
+    println!("{}", rect2.can_hold(&rect1));
+
+    let square = Rectangle::square(33);
+    println!("This is a squaare of size {}", square.width);
 }
 
 fn area(width: u32, height: u32) -> u32 {
@@ -42,4 +59,21 @@ fn area_with_struct(rect: &Rectangle) -> u32 {
 struct Rectangle {
     width: u32,
     height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size
+        }
+    }
 }
