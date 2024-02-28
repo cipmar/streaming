@@ -1,5 +1,5 @@
 database/*.iml
-mqqt_consumer/target
+*/target
 pump/target
 .idea
 .DS_Store
