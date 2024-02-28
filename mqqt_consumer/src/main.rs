@@ -105,8 +105,8 @@ fn process_messages(msg: &Message) {
                         connected = true;
                         break;
                     },
-                    Err(e) => {
-                        println!("Error writing to the socket: {:?}", e);
+                    Err(err) => {
+                        println!("Error writing to the socket: {:?}", err);
                         process::exit(1);
                     }
                 }
