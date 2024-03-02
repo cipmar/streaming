@@ -33,7 +33,7 @@ fn main() {
         .finalize();
 
     if let Err(err) = client.connect(conn_opts) {
-        println!("Unable to connect: {:?}", err);
+        println!("Unable to connect to mqtt broker: {:?}", err);
         process::exit(1);
     }
 
@@ -43,7 +43,7 @@ fn main() {
 
     for msq in receiver.iter() {
         if let Some(msg) = msq {
-            process_messages(&msg);
+            retry(send_message_to_socket, &msg, 10);
         } else if !client.is_connected() {
             if try_reconnect_mqtt(&client) {
                 println!("Resubscribe to topics...");
@@ -90,30 +90,17 @@ fn try_reconnect_mqtt(client: &Client) -> bool {
     false
 }
 
-fn process_messages(msg: &Message) {
+fn retry<F>(process_message: F, msg: &Message, retries: u8) where F: Fn(&Message) -> bool {
 
-    let retries = 10;
     let mut connected = false;
 
     for i in 1..retries {
 
-        match TcpStream::connect("127.0.0.1:34000") {
-            Ok(mut tcp_stream) => {
-                match tcp_stream.write(msg.payload_str().as_bytes()) {
-                    Ok(bytes_written) => {
-                        println!("Message successfully received and sent to socket, {:?} bytes written", bytes_written);
-                        connected = true;
-                        break;
-                    },
-                    Err(err) => {
-                        println!("Error writing to the socket: {:?}", err);
-                        process::exit(1);
-                    }
-                }
-            },
-            Err(err) => {
-                println!("Error connecting to the socket. Error: {}. Retry {:?}", err, i);
-            }
+        if process_message(msg) {
+            connected = true;
+            break;
+        } else {
+            println!("Retry {}", i)
         }
 
         thread::sleep(Duration::from_secs(6));
@@ -122,4 +109,27 @@ fn process_messages(msg: &Message) {
     if !connected {
         println!("Failed to write the message to the socket. Dropping the following message: {:?}", msg.payload_str());
     }
+}
+
+fn send_message_to_socket(msg: &Message) -> bool {
+    
+    match TcpStream::connect("127.0.0.1:34000") {
+        Ok(mut tcp_stream) => {
+            match tcp_stream.write(msg.payload_str().as_bytes()) {
+                Ok(bytes_written) => {
+                    println!("Message successfully received and sent to socket, {:?} bytes written", bytes_written);
+                    return true;
+                },
+                Err(err) => {
+                    println!("Error writing to the socket: {:?}", err);
+                    process::exit(1);
+                }
+            }
+        },
+        Err(err) => {
+            println!("Error connecting to the socket. Error: {}.", err);
+        }
+    }
+
+    return false;
 }
