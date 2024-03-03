@@ -1,9 +1,8 @@
+use mqtt::{Client, ConnectOptionsBuilder, Message};
 use paho_mqtt as mqtt;
 use std::{process, thread, time::Duration};
-use mqtt::{Client, ConnectOptionsBuilder, Message};
 
 pub fn connect_mqtt(clinet_name: &str, broker_url: &str) -> Client {
-
     let create_opts = mqtt::CreateOptionsBuilder::new()
         .server_uri(broker_url)
         .client_id(clinet_name)
@@ -15,8 +14,10 @@ pub fn connect_mqtt(clinet_name: &str, broker_url: &str) -> Client {
     });
 
     let lwt = mqtt::MessageBuilder::new()
-        .payload("This is the last will and testament if this clinet.
-            Broker, please publish this message after I die!")
+        .payload(
+            "This is the last will and testament if this clinet.
+            Broker, please publish this message after I die!",
+        )
         .topic("lwt")
         .finalize();
 
@@ -32,11 +33,12 @@ pub fn connect_mqtt(clinet_name: &str, broker_url: &str) -> Client {
     }
 
     client
-
 }
 
-pub fn consume_messages<F>(client: &Client, topics: &[&str], process_message: F) where F: Fn(&Message) -> bool {
-
+pub fn consume_messages<F>(client: &Client, topics: &[&str], process_message: F)
+where
+    F: Fn(&Message) -> bool,
+{
     let receiver = client.start_consuming();
     subscribe_topics(&client, topics);
 
@@ -62,12 +64,13 @@ pub fn consume_messages<F>(client: &Client, topics: &[&str], process_message: F)
     }
 }
 
-fn retry<F>(process_message: F, msg: &Message, retries: u8) where F: Fn(&Message) -> bool {
-
+fn retry<F>(process_message: F, msg: &Message, retries: u8)
+where
+    F: Fn(&Message) -> bool,
+{
     let mut connected = false;
 
     for i in 1..retries {
-
         if process_message(msg) {
             connected = true;
             break;
@@ -79,12 +82,14 @@ fn retry<F>(process_message: F, msg: &Message, retries: u8) where F: Fn(&Message
     }
 
     if !connected {
-        println!("Failed to write the message to the socket. Dropping the following message: {:?}", msg.payload_str());
+        println!(
+            "Failed to write the message to the socket. Dropping the following message: {:?}",
+            msg.payload_str()
+        );
     }
 }
 
 fn subscribe_topics(client: &mqtt::Client, topics: &[&str]) {
-
     if let Err(err) = client.subscribe_many(topics, &[mqtt::QOS_0, mqtt::QOS_1]) {
         println!("Error subscribing to topics: {:?}", err);
         process::exit(1);
@@ -92,11 +97,9 @@ fn subscribe_topics(client: &mqtt::Client, topics: &[&str]) {
 }
 
 fn try_reconnect(client: &Client) -> bool {
-
     let retries = 10;
 
     for i in 1..retries {
-
         thread::sleep(Duration::from_secs(10));
         println!("Connection lost, retrying to connect, try {:?}", i);
 
