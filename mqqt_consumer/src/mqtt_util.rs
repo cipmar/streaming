@@ -1,5 +1,6 @@
-use mqtt::{Client, ConnectOptionsBuilder, Message};
 use paho_mqtt as mqtt;
+
+use mqtt::{Client, ConnectOptionsBuilder, Message};
 use std::{process, thread, time::Duration};
 
 pub fn connect_mqtt(clinet_name: &str, broker_url: &str) -> Client {

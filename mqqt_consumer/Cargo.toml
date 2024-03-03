@@ -11,3 +11,6 @@ protobuf = "3.3.0"
 rand = "0.8.5"
 regex = "1.10.3"
 tokio = "1.36.0"
+
+[build-dependencies]
+protobuf-codegen = "3.4.0"

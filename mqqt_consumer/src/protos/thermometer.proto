@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message ThermomoterData {
+    float temperature = 1;
+    float humidity = 2;
+    float pressure = 3;
+    float battery = 4;
+    float linkquality = 5;
+    int32 power_outage_count = 6;
+    int32 voltage = 7;
+}
