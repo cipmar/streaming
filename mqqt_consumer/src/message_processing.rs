@@ -12,7 +12,7 @@ struct ThermometerData {
     humidity: f32,
     pressure: f32,
     battery: f32,
-    link_quality: f32,
+    linkquality: f32,
     power_outage_count: i32,
     voltage: i32,
 }
@@ -27,7 +27,7 @@ pub fn send_message_to_socket(msg: &paho_mqtt::Message) -> bool {
             proto_data.humidity = data.humidity;
             proto_data.pressure = data.pressure;
             proto_data.battery = data.battery;
-            proto_data.link_quality = data.link_quality;
+            proto_data.linkquality = data.linkquality;
             proto_data.power_outage_count = data.power_outage_count;
             proto_data.voltage = data.voltage;
 
