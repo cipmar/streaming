@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-message ThermomoterData {
+message ThermometerData {
     float temperature = 1;
     float humidity = 2;
     float pressure = 3;

@@ -11,13 +11,13 @@ pub(crate) fn start() {
     for stream in tcp_listener.incoming() {
         match stream {
             Ok(mut stream) => {                
-                let mut str = String::new();
-                stream.read_to_string(&mut str).unwrap_or_else(|err| {
+                let mut data = Vec::new();
+                stream.read_to_end(&mut data).unwrap_or_else(|err| {
                     println!("Error reading the stream: {}", err);
                     process::exit(1);
                 });
 
-                println!("Data received: {}", str);
+                println!("Data received: {} bytes", data.len());
             }
             Err(e) => println!("Error: {}", e),
         }

@@ -1,0 +1,1 @@
+mosquitto_pub -t zigbee2mqtt/thermometer_bedroom -m '{"pressure": 1006.2, "temperature": 21.38, "battery": 100, "humidity": 47.44, "linkquality": 21, "power_outage_count": 63, "voltage": 3005}'

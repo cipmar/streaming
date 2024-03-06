@@ -1,7 +1,6 @@
-// mod thermometer_proto {
-//     include!(concat!(env!("OUT_DIR"), "/protos/thermometer.rs"));
-// }
-
+mod proto {
+    include!(concat!(env!("OUT_DIR"), "/proto/mod.rs"));
+}
 mod message_processing;
 mod mqtt_util;
 

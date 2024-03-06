@@ -1,8 +1,8 @@
 fn main() {
 
     protobuf_codegen::Codegen::new()
-        .include("src/protos")
-        .input("src/protos/thermometer.proto")
-        .cargo_out_dir("protos")
+        .include("src/proto")
+        .input("src/proto/thermometer.proto")
+        .cargo_out_dir("proto")
         .run_from_script();
 }
