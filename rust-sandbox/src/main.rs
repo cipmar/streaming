@@ -2,8 +2,11 @@
 
 mod rectangles;
 mod socket_server;
+mod enums;
 
 fn main() {
+
     rectangles::main();
+    enums::main();
     socket_server::start();
 }
