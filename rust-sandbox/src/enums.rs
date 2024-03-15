@@ -67,4 +67,9 @@ pub(crate) fn main() {
 
     let m4 = Message::Write(String::from("hello"));
     m4.call();
+
+    let some_number = Some(5);
+    let some_chat = Some('e');
+
+    let absent_number: Option<u32> = None;
 }
