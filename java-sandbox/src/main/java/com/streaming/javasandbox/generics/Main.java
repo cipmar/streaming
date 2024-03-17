@@ -1,5 +1,6 @@
 package com.streaming.javasandbox.generics;
 
+import static com.streaming.javasandbox.generics.Generics.findSum;
 import static com.streaming.javasandbox.generics.Generics.genericSort;
 import static com.streaming.javasandbox.generics.Generics.max;
 import static com.streaming.javasandbox.generics.Generics.min;
@@ -28,6 +29,11 @@ public class Main {
 		System.out.printf("The max of list is %s%n", max);
 		var min = min(list3);
 		System.out.printf("The min of list is %s%n", min);
+
+		var list4 = List.of(2, 4, 5, 6, 7, 8, 11, 13);
+		printList(list4, "list4");
+		var res = findSum(list4, 13);
+		System.out.println(res);
 	}
 
 	private static <T> void printList(List<T> list, String label) {

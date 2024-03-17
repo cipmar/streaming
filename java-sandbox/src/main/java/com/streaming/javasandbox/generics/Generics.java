@@ -6,12 +6,11 @@ import java.util.function.BiPredicate;
 
 public class Generics {
 	public static <T extends Comparable<T>> int search(List<T> list, T element) {
-		int lo = 0;
-		int hi = list.size() - 1;
+		var lo = 0;
+		var hi = list.size() - 1;
 
 		while (lo <= hi) {
-			int mid = (lo + hi) / 2;
-
+			var mid = (lo + hi) / 2;
 			var cmp = list.get(mid).compareTo(element);
 
 			if (cmp == 0) {
@@ -27,10 +26,10 @@ public class Generics {
 	}
 
 	public static <T extends Comparable<T>> void genericSort(List<T> list) {
-		for (int i = 0; i < list.size(); i++) {
-			for (int j = 0; j < list.size(); j++) {
+		for (var i = 0; i < list.size(); i++) {
+			for (var j = 0; j < list.size(); j++) {
 				if (list.get(i).compareTo(list.get(j)) < 0) {
-					T tmp = list.get(i);
+					var tmp = list.get(i);
 					list.set(i, list.get(j));
 					list.set(j, tmp);
 				}
@@ -44,6 +43,24 @@ public class Generics {
 
 	public static <T extends Comparable<T>> Optional<T> min(List<T> list) {
 		return genericMinMax(list, (x, y) -> x.compareTo(y) > 0);
+	}
+
+	public static boolean findSum(List<Integer> list, int sum) {
+		var lo = 0;
+		var hi = list.size() - 1;
+
+		while (lo < hi) {
+			var tmp = list.get(lo) + list.get(hi);
+
+			if (tmp == sum) {
+				return true;
+			} else if (tmp < sum) {
+				lo++;
+			} else {
+				hi--;
+			}
+		}
+		return false;
 	}
 
 	private static <T extends Comparable<T>> Optional<T> genericMinMax(List<T> list, BiPredicate<T, T> predicate) {
