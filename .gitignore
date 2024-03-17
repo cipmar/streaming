@@ -3,3 +3,7 @@ database/*.iml
 pump/target
 .idea
 .DS_Store
+*/.project
+.project
+.settings
+*/.classpath
